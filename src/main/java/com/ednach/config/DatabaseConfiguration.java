@@ -1,12 +1,11 @@
 package com.ednach.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,37 +18,25 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {
         "com.ednach.repository"})
 public class DatabaseConfiguration {
-    @Value("${connection.driver_class}")
-    private String driverClass;
-
-    @Value("${connection.url}")
-    private String url;
-    @Value("${hibernate.connection.username}")
-    private String login;
-
-    @Value("${hibernate.connection.password}")
-    private String password;
-
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(driverClass);
-        driver.setUrl(url);
-        driver.setUsername(login);
-        driver.setPassword(password);
-        return driver;
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        return builder.setType(EmbeddedDatabaseType.H2).build();
     }
-    /**
-     * Creates a JPA EntityManagerFactory
-     *
-     * @return - LocalContainerEntityManagerFactoryBean object
-     */
+
+    @Bean(initMethod = "migrate", name = "flyway")
+    public Flyway getFlyWay() {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(dataSource());
+        return flyway;
+    }
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
@@ -61,12 +48,6 @@ public class DatabaseConfiguration {
         return localContainerEntityManagerFactoryBean;
     }
 
-    /**
-     * Creates TransactionManager
-     *
-     * @param emf - EntityManagerFactory object
-     * @return - PlatformTransactionManager object
-     */
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -74,15 +55,11 @@ public class DatabaseConfiguration {
         return transactionManager;
     }
 
-    /**
-     * Creates settings for Hibernate
-     *
-     * @return - Properties object with settings for Hibernate
-     */
     private Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("spring.jpa.hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("spring.jpa.hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("spring.jpa.show-sql","true");
         return properties;
     }
 
