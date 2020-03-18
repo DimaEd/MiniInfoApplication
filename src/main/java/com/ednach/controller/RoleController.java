@@ -1,8 +1,6 @@
 package com.ednach.controller;
 
-import com.ednach.dto.request.RoleRequestDto;
-import com.ednach.dto.response.RoleResponseDto;
-import com.ednach.dto.response.UserResponseDto;
+import com.ednach.dto.RoleDto;
 import com.ednach.model.Role;
 import com.ednach.service.RoleService;
 import org.dozer.Mapper;
@@ -24,33 +22,32 @@ public class RoleController {
         this.mapper = mapper;
         this.roleService = roleService;
     }
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<RoleResponseDto>> getAll() {
+    public ResponseEntity<List<RoleDto>> getAll() {
         final List<Role> roles = roleService.findAll();
-        final List<RoleResponseDto> roleDtoList = roles.stream()
-                .map((role) -> mapper.map(role, RoleResponseDto.class))
+        final List<RoleDto> roleDtoList = roles.stream()
+                .map((role) -> mapper.map(role, RoleDto.class))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(roleDtoList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<RoleResponseDto> getName(@PathVariable Long id) {
-        final RoleResponseDto roleResponseDto = mapper.map(roleService.findAllByRole(id), RoleResponseDto.class);
-        return new ResponseEntity<>(roleResponseDto, HttpStatus.OK);
+    public ResponseEntity<RoleDto> getName(@PathVariable Long id) {
+        final RoleDto roleDto = mapper.map(roleService.findById(id), RoleDto.class);
+        return new ResponseEntity<>(roleDto, HttpStatus.OK);
     }
+
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<RoleResponseDto> save(@Valid @RequestBody RoleRequestDto roleDto) {
+    public ResponseEntity<RoleDto> save(@Valid @RequestBody RoleDto roleDto) {
         roleDto.setId(null);
-        final RoleResponseDto responseRoleDto = mapper.map(roleService.save(mapper.map(roleDto, Role.class)), RoleResponseDto.class);
+        final RoleDto responseRoleDto = mapper.map(roleService.save(mapper.map(roleDto, Role.class)), RoleDto.class);
         return new ResponseEntity<>(responseRoleDto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<RoleResponseDto> update(@Valid @RequestBody RoleResponseDto roleDto, @PathVariable Long id) {
-//        if (!Objects.equals(id, roleDto.getId())) {
-//            throw new RuntimeException(localizedMessageSource.getMessage("controller.role.unexpectedId", new Object[]{}));
-//        }
-        final RoleResponseDto responseRoleDto = mapper.map(roleService.update(mapper.map(roleDto, Role.class)), RoleResponseDto.class);
+    public ResponseEntity<RoleDto> update(@Valid @RequestBody RoleDto roleDto, @PathVariable Long id) {
+        final RoleDto responseRoleDto = mapper.map(roleService.update(mapper.map(roleDto, Role.class)), RoleDto.class);
         return new ResponseEntity<>(responseRoleDto, HttpStatus.OK);
     }
 

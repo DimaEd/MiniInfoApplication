@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Implementation of service interface for User entity
- */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -31,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Don't remember"));
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
     @Override
@@ -41,27 +38,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userRepository.saveAndFlush(user);
+        return saveAndFlush(user);
     }
 
     @Override
     public User update(User user) {
-        return userRepository.saveAndFlush(user);
+        final Long id = user.getId();
+        findById(id);
+        return saveAndFlush(user);
     }
 
     @Override
     public void delete(User user) {
+        Long id = user.getId();
+        findById(id);
         userRepository.delete(user);
     }
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         userRepository.deleteById(id);
     }
 
     private User saveAndFlush(User user) {
-        //  validate(user.getRole() == null || user.getRole().getId() == null, localizedMessageSource.getMessage("error.user.role.isNull", new Object[]{}));
-      //  user.setRole(roleService.findById(user.getRole().getId()));
+        user.setRole(roleService.findById(user.getRole().getId()));
         return userRepository.saveAndFlush(user);
     }
 }

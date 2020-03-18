@@ -8,6 +8,7 @@ import java.util.List;
  * Interface with CRUD methods for User entity
  */
 public interface UserService {
+
     List<User> findAll();
 
     User findById(Long id);

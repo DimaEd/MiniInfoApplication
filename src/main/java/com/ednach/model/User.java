@@ -26,4 +26,18 @@ public class User {
 
     @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
     private Set<Product> products;
+
+    public User() {
+    }
+
+    public User(Long id, String name, String email, Role role){
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.role =role;
+    }
+    public User(Long id , String name){
+        this.id = id;
+        this.name = name;
+    }
 }

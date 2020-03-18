@@ -59,7 +59,7 @@ public class DatabaseConfiguration {
         Properties properties = new Properties();
         properties.setProperty("spring.jpa.hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("spring.jpa.hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("spring.jpa.show-sql","true");
+        properties.setProperty("spring.jpa.show-sql","false");
         return properties;
     }
 

@@ -8,9 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Implementation of service interface for Role entity
- */
 @Service
 @Transactional
 public class RoleServiceImpl implements RoleService {
@@ -26,8 +23,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findAllByRole(Long id) {
-        return roleRepository.findById(id).orElseThrow(()-> new RuntimeException("Ohh"));
+    public Role findById(Long id) {
+        return roleRepository.findById(id).orElseThrow(()->new RuntimeException());
     }
 
     @Override
@@ -37,19 +34,21 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role update(Role role) {
+        final Long id = role.getId();
+        findById(id);
         return roleRepository.saveAndFlush(role);
     }
 
     @Override
     public void delete(Role role) {
+        Long id = role.getId();
+        findById(id);
         roleRepository.delete(role);
-
     }
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         roleRepository.deleteById(id);
     }
-
-
 }

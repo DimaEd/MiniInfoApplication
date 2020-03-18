@@ -38,11 +38,6 @@ public class UserController {
         return new ResponseEntity<>(userResponseDtoList, HttpStatus.OK);
     }
 
-    //    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    public ResponseEntity<UserResponseDto> getOne(@PathVariable Long id) {
-//        final UserResponseDto userResponseDto = mapper.map(userService.findById(id), UserResponseDto.class);
-//        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
-//    }
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public ResponseEntity<UserResponseDto> getName(@PathVariable String name) {
         final UserResponseDto userResponseDto = mapper.map(userService.findByName(name), UserResponseDto.class);
@@ -58,9 +53,6 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserResponseDto> update(@Valid @RequestBody UserRequestDto userRequestDto, @PathVariable Long id) {
-//        if (!Objects.equals(id, userRequestDto.getId())) {
-//            throw new RuntimeException(localizedMessageSource.getMessage("controller.user.unexpectedId", new Object[]{}));
-//        }
         final UserResponseDto userResponseDto = mapper.map(userService.update(getUser(userRequestDto)), UserResponseDto.class);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }

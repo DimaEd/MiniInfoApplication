@@ -24,7 +24,7 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Override
     public Producer findById(Long id) {
-        return producerRepository.findById(id).orElseThrow(()-> new RuntimeException("What is hapened"));
+        return producerRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
     @Override
@@ -39,18 +39,22 @@ public class ProducerServiceImpl implements ProducerService {
 
     @Override
     public Producer update(Producer producer) {
+        final Long id = producer.getId();
+        findById(id);
         return producerRepository.saveAndFlush(producer);
     }
 
     @Override
     public void delete(Producer producer) {
+        final Long id = producer.getId();
+        findById(id);
         producerRepository.delete(producer);
-        System.out.println("Object was deleted");
     }
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         producerRepository.deleteById(id);
-        System.out.println("Object was deleted by id");
+
     }
 }

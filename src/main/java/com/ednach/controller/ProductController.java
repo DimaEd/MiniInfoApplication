@@ -55,9 +55,6 @@ public class ProductController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ProductResponseDto> update(@Valid @RequestBody ProductRequestDto productRequestDto, @PathVariable Long id) {
-//        if (!Objects.equals(id, userRequestDto.getId())) {
-//            throw new RuntimeException(localizedMessageSource.getMessage("controller.user.unexpectedId", new Object[]{}));
-//        }
         final ProductResponseDto productResponseDto = mapper.map(productService.update(getProduct(productRequestDto)), ProductResponseDto.class);
         return new ResponseEntity<>(productResponseDto, HttpStatus.OK);
     }

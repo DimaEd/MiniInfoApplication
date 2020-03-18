@@ -10,7 +10,7 @@ import java.util.List;
 public interface RoleService {
     List<Role> findAll();
 
-    Role findAllByRole(Long id);
+    Role findById (Long id);
 
     Role save(Role role);
 

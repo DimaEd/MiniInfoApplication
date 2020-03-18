@@ -7,9 +7,7 @@ import java.util.List;
 public interface ProducerService {
     List<Producer> findAll();
 
-  //  List<Producer> findAllByCountry(String name);
-  Producer findProducerByCompanyName(String companyName);
-
+    Producer findProducerByCompanyName(String companyName);
 
     Producer findById(Long id);
 

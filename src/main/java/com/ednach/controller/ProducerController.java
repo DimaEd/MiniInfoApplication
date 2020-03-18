@@ -1,12 +1,8 @@
 package com.ednach.controller;
 
 import com.ednach.dto.request.ProducerRequestDto;
-import com.ednach.dto.request.UserRequestDto;
 import com.ednach.dto.response.ProducerResponseDto;
-import com.ednach.dto.response.RoleResponseDto;
-import com.ednach.dto.response.UserResponseDto;
 import com.ednach.model.Producer;
-import com.ednach.model.Role;
 import com.ednach.service.ProducerService;
 import org.dozer.Mapper;
 import org.springframework.http.HttpStatus;
