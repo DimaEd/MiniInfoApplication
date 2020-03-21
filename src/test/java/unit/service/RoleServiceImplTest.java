@@ -28,6 +28,8 @@ public class RoleServiceImplTest {
     @Mock
     private RoleRepository roleRepository;
 
+    final Role role = new Role();
+
     @Test
     public void testFindAll() {
         final List<Role> roleList = Collections.singletonList(new Role());
@@ -36,21 +38,18 @@ public class RoleServiceImplTest {
     }
     @Test
     public void testFindById() {
-        final Role role = new Role();
         when(roleRepository.findById(any(Long.class))).thenReturn(Optional.of(role));
         assertEquals(roleService.findById(1L), role);
     }
 
     @Test
     public void testSave() {
-        final Role role = new Role();
         when(roleRepository.saveAndFlush(role)).thenReturn(role);
         assertEquals(roleService.save(role), role);
     }
 
     @Test
     public void testUpdate() {
-        final Role role = new Role();
         role.setId(1L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         when(roleRepository.saveAndFlush(role)).thenReturn(role);
@@ -59,7 +58,6 @@ public class RoleServiceImplTest {
 
     @Test
     public void testDelete() {
-        final Role role = new Role();
         role.setId(1L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         doNothing().when(roleRepository).delete(role);
@@ -68,7 +66,6 @@ public class RoleServiceImplTest {
 
     @Test
     public void testDeleteById() {
-        final Role role = new Role();
         role.setId(1L);
         doNothing().when(roleRepository).deleteById(any(Long.class));
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));

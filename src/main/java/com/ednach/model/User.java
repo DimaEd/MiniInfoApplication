@@ -1,5 +1,6 @@
 package com.ednach.model;
 
+import com.ednach.dto.response.UserResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 

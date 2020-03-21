@@ -12,4 +12,13 @@ public class UserRequestDto {
     private String email;
     private Long roleId;
 
+    public UserRequestDto( Long id,String name, String email, Long roleId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.roleId = roleId;
+    }
+
+    public UserRequestDto() {
+    }
 }

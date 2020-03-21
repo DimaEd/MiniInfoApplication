@@ -33,6 +33,8 @@ public class UserServiceImplTest {
     @Mock
     private RoleService roleService;
 
+    final User user = new User();
+    final Role role = new Role(1L,"client");
 
     @Test
     public void testFindAll() {
@@ -43,15 +45,12 @@ public class UserServiceImplTest {
 
     @Test
     public void testFindById() {
-        final User user = new User();
         when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
         assertEquals(userService.findById(1L), user);
     }
 
     @Test
     public void testSave() {
-        final User user = new User();
-        final Role role = new Role(1L,"client");
         user.setRole(role);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(roleService.findById(1L)).thenReturn(role);
@@ -60,9 +59,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testUpdate() {
-        final User user = new User();
         user.setId(1L);
-        final Role role = new Role(1L,"client");
         user.setRole(role);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -72,7 +69,6 @@ public class UserServiceImplTest {
 
     @Test
     public void testDelete() {
-        final User user = new User();
         user.setId(1L);
         doNothing().when(userRepository).delete(user);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -81,7 +77,6 @@ public class UserServiceImplTest {
 
     @Test
     public void testDeleteById() {
-        final User user = new User();
         user.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         doNothing().when(userRepository).deleteById(any(Long.class));

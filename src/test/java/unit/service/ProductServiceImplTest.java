@@ -34,6 +34,10 @@ public class ProductServiceImplTest {
     @Mock
     private UserService userService;
 
+    final Product product = new Product();
+    final Role role = new Role(1L,"client");
+    final User user = new User(1L,"Tom","tom@mail.ru",role);
+
 
     @Test
     public void testFindAll() {
@@ -44,15 +48,12 @@ public class ProductServiceImplTest {
 
     @Test
     public void testFindById() {
-        final Product product = new Product();
         when(productRepository.findById(any(Long.class))).thenReturn(Optional.of(product));
         assertEquals(productService.findById(1L), product);
     }
     @Test
     public void testSave() {
         final Product product = new Product();
-        final Role role = new Role(1L,"client");
-        final User user = new User(1L,"Tom","tom@mail.ru",role);
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);
         when(userService.findById(1L)).thenReturn(user);
@@ -61,10 +62,7 @@ public class ProductServiceImplTest {
 
     @Test
     public void testUpdate() {
-        final Product product = new Product();
         product.setId(1L);
-        final Role role = new Role(1L,"client");
-        final User user = new User(1L,"Tom","tom@mail.ru",role);
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -73,7 +71,6 @@ public class ProductServiceImplTest {
     }
     @Test
     public void testDelete() {
-        final Product product = new Product();
         product.setId(1L);
         doNothing().when(productRepository).delete(product);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -82,7 +79,6 @@ public class ProductServiceImplTest {
 
     @Test
     public void testDeleteById() {
-        final Product product = new Product();
         product.setId(1L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         doNothing().when(productRepository).deleteById(any(Long.class));

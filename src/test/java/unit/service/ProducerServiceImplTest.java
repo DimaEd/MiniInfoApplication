@@ -28,6 +28,8 @@ public class ProducerServiceImplTest {
     @Mock
     private ProducerRepository producerRepository;
 
+    final Producer producer = new Producer();
+
     @Test
     public void testFindAll() {
         final List<Producer> producerList = Collections.singletonList(new Producer());
@@ -36,21 +38,18 @@ public class ProducerServiceImplTest {
     }
     @Test
     public void testFindById() {
-        final Producer producer = new Producer();
         when(producerRepository.findById(any(Long.class))).thenReturn(Optional.of(producer));
         assertEquals(producerService.findById(1L), producer);
     }
 
     @Test
     public void testSave() {
-        final Producer producer = new Producer();
         when(producerRepository.saveAndFlush(producer)).thenReturn(producer);
         assertEquals(producerService.save(producer), producer);
     }
 
     @Test
     public void testUpdate() {
-        final Producer producer = new Producer();
         producer.setId(1L);
         when(producerRepository.findById(1L)).thenReturn(Optional.of(producer));
         when(producerRepository.saveAndFlush(producer)).thenReturn(producer);
@@ -59,7 +58,6 @@ public class ProducerServiceImplTest {
 
     @Test
     public void testDelete() {
-        final Producer producer = new Producer();
         producer.setId(1L);
         when(producerRepository.findById(1L)).thenReturn(Optional.of(producer));
         doNothing().when(producerRepository).delete(producer);
@@ -68,7 +66,6 @@ public class ProducerServiceImplTest {
 
     @Test
     public void testDeleteById() {
-        final Producer producer = new Producer();
         producer.setId(1L);
         doNothing().when(producerRepository).deleteById(any(Long.class));
         when(producerRepository.findById(1L)).thenReturn(Optional.of(producer));

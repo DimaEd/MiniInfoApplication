@@ -63,7 +63,7 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    private User getUser(UserRequestDto userRequestDto) {
+    public User getUser(UserRequestDto userRequestDto) {
         final User user = mapper.map(userRequestDto, User.class);
         final Role role = new Role();
         role.setId(userRequestDto.getRoleId());
