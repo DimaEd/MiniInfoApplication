@@ -26,6 +26,12 @@ public class TestWebConfiguration implements WebMvcConfigurer, ApplicationContex
         this.applicationContext = applicationContext;
     }
 
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("applicationMessages");
+        return messageSource;
+    }
 
     @Bean
     public Mapper mapper() {
