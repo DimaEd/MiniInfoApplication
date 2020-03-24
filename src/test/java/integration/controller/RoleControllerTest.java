@@ -49,6 +49,13 @@ public class RoleControllerTest {
                 .andExpect(jsonPath("$.roleName").value("client"))
                 .andReturn();
     }
+    @Test
+    public void testGetOneNotExist() throws Exception {
+        mockMvc.perform(get("/role/3"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
 
     @Test
     public void testGetAll() throws Exception {
@@ -62,13 +69,22 @@ public class RoleControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdateOneExist() throws Exception {
         mockMvc.perform(put("/role/2").contentType(APPLICATION_JSON_UTF8).content("{\"id\":2,\"roleName\":\"user\"}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.roleName").value("user"))
                 .andReturn();
     }
+
+    @Test
+    public void testPutNotExistBadRequest() throws Exception {
+        mockMvc.perform(put("/role/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":1,\"name\":\"admin\"}"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
 
     @Test
     public void testSave() throws Exception {

@@ -6,7 +6,6 @@ import com.ednach.model.Role;
 import com.ednach.model.User;
 import com.ednach.service.UserService;
 import com.ednach.service.impl.UserServiceImpl;
-import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,8 +71,5 @@ public class UserController {
         return user;
 
 
-    }
-
-    public void setDozer(DozerBeanMapper dozer) {
     }
 }

@@ -1,11 +1,8 @@
 package com.ednach.controller;
 
 import com.ednach.dto.request.ProductRequestDto;
-import com.ednach.dto.request.UserRequestDto;
 import com.ednach.dto.response.ProductResponseDto;
-import com.ednach.dto.response.UserResponseDto;
 import com.ednach.model.Product;
-import com.ednach.model.Role;
 import com.ednach.model.User;
 import com.ednach.service.ProductService;
 import org.dozer.Mapper;

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
+
     private Mapper mapper;
     private RoleService roleService;
 
@@ -33,7 +34,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<RoleDto> getName(@PathVariable Long id) {
+    public ResponseEntity<RoleDto> getOne(@PathVariable Long id) {
         final RoleDto roleDto = mapper.map(roleService.findById(id), RoleDto.class);
         return new ResponseEntity<>(roleDto, HttpStatus.OK);
     }

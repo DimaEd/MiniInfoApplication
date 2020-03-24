@@ -33,7 +33,7 @@ public class ProducerController {
         return new ResponseEntity<>(producerResponseDtoList, HttpStatus.OK);
     }
         @RequestMapping(value = "/{companyName}", method = RequestMethod.GET)
-    public ResponseEntity<ProducerResponseDto> getOne(@PathVariable String companyName) {
+    public ResponseEntity<ProducerResponseDto> getName(@PathVariable String companyName) {
         final ProducerResponseDto producerResponseDto = mapper.map(producerService.findProducerByCompanyName(companyName), ProducerResponseDto.class);
         return new ResponseEntity<>(producerResponseDto, HttpStatus.OK);
     }

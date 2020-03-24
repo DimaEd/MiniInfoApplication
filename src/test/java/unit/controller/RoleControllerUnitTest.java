@@ -1,70 +1,84 @@
 package unit.controller;
 
 import com.ednach.controller.RoleController;
+import com.ednach.dto.RoleDto;
+import com.ednach.dto.request.UserRequestDto;
+import com.ednach.dto.response.UserResponseDto;
 import com.ednach.model.Role;
 import com.ednach.service.impl.RoleServiceImpl;
-import integration.configuration.TestWebConfiguration;
+import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.any;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import java.util.*;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
-
-@ExtendWith(SpringExtension.class)
-@WebAppConfiguration()
-@ContextConfiguration(classes = {TestWebConfiguration.class})
-public class RoleControllerUnitTest {
-
-    private MockMvc mockMvc;
-
-    @Mock
-    RoleServiceImpl roleService;
-
-    @Mock
-     Mapper mapper;
+@ExtendWith(MockitoExtension.class)
+class RoleControllerUnitTest {
 
     @InjectMocks
     RoleController roleController;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(roleController)
-                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
-    }
+    @Mock
+    RoleServiceImpl roleService;
 
+    @Spy
+    Mapper mapper = new DozerBeanMapper();
+
+    final Role role = new Role();
+    final RoleDto roleDto = new RoleDto();
 
     @Test
-    void getAll() throws Exception {
-        Role role = new Role();
-        role.setId(1L);
-        role.setRoleName("client");
-        List<Role> roles = new ArrayList<>();
-        roles.add(role);
-        given(roleService.findAll()).willReturn(roles);
-            mockMvc.perform(get("/role")).andExpect(status().isOk())
-            .andDo(print());
+    void getAll() {
+        List<RoleDto> roleDtoList = singletonList(roleDto);
+        ResponseEntity<List<RoleDto>> roleDtoResponseEntity = new ResponseEntity<>(roleDtoList, HttpStatus.OK);
+        List<Role> roles = singletonList(role);
+        when(roleService.findAll()).thenReturn(roles);
+        assertEquals(roleController.getAll(), roleDtoResponseEntity);
+    }
 
+    @Test
+    void getOne() {
+        ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
+        when(roleService.findById(any(Long.class))).thenReturn(role);
+        assertEquals(roleController.getOne(1L), roleDtoResponseEntity);
+    }
 
+    @Test
+    void save() {
+        ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
+        RoleDto roleRequest = new RoleDto();
+        when(roleService.save(any())).thenReturn(role);
+        assertEquals(roleController.save(roleRequest), roleDtoResponseEntity);
+    }
 
+    @Test
+    void update() {
+        ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
+        RoleDto roleRequestDto = new RoleDto();
+        when(roleService.update(any())).thenReturn(role);
+        assertEquals(roleController.update(roleRequestDto, 1L), roleDtoResponseEntity);
 
     }
 
+    @Test
+    void delete() {
+        doNothing().when(roleService).deleteById(any(Long.class));
+        assertDoesNotThrow(() -> roleController.delete(1L));
+    }
 
 }
