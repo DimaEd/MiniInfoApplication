@@ -4,9 +4,6 @@ import com.ednach.model.Product;
 
 import java.util.List;
 
-/**
- * Interface with CRUD methods for Product entity
- */
 public interface ProductService {
     List<Product> findAll();
 

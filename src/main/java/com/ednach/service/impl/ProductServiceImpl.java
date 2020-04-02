@@ -10,9 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Implementation of service interface for Product entity
- */
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {

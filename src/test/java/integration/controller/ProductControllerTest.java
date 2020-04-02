@@ -42,11 +42,18 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testGetName() throws Exception {
+    public void testGetProductName() throws Exception {
         mockMvc.perform(get("/product/samsung"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.productName").value("samsung"))
+                .andReturn();
+    }
+    @Test
+    public void testGetProductNameNotExist() throws Exception {
+        mockMvc.perform(get("/product/Sony"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
 
@@ -56,8 +63,48 @@ public class ProductControllerTest {
         mockMvc.perform(get("/product"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].productName").value("samsung"))
-                .andExpect(jsonPath("$[1].product").value("apple"))
+               .andExpect(jsonPath("$[2].productName").value("samsung"))
+                .andExpect(jsonPath("$[0].productName").value("apple"))
+                .andReturn();
+    }
+    @Test
+    public void testUpdateOneExist() throws Exception {
+        mockMvc.perform(put("/product/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":3,\"productName\":\"sony\",\"cost\":10000,\"userId\":1}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void testUpdateNotExistBadRequest() throws Exception {
+        mockMvc.perform(put("/product/7").contentType(APPLICATION_JSON_UTF8).content("{\"id\":10,\"productName\":\"sony\",\"cost\":10000,\"userId\":1}"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
+    @Test
+    public void testSaveNotExist() throws Exception {
+        mockMvc.perform(post("/product").contentType(APPLICATION_JSON_UTF8).content("{\"productName\":\"sony\",\"cost\":10000,\"userId\":1}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.productName").value("sony"))
+                .andReturn();
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete("/product/2"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void testDeleteNotExist() throws Exception {
+        mockMvc.perform(delete("/product/5"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
 }

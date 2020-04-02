@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `roles`;
+
 CREATE TABLE `roles`
 (
     `id`       bigint(8)   NOT NULL AUTO_INCREMENT,
@@ -6,7 +6,6 @@ CREATE TABLE `roles`
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`
 (
     `id`      bigint(8)   NOT NULL AUTO_INCREMENT,
@@ -26,7 +25,6 @@ CREATE TABLE `producers`
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products`
 (
     `id`          bigint(8)   NOT NULL AUTO_INCREMENT,
@@ -36,8 +34,6 @@ CREATE TABLE `products`
     PRIMARY KEY (`id`, `user_id`),
     CONSTRAINT `fk_products_Users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
-
-DROP TABLE IF EXISTS `products_producers`;
 
 CREATE TABLE `products_producers`
 (

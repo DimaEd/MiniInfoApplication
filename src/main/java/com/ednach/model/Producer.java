@@ -18,7 +18,7 @@ public class Producer {
     private String country;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "products_producers",
-            joinColumns = {@JoinColumn(name = "producer_id")},
+            joinColumns = {@JoinColumn(name = "producer_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private Set<Product> products;
 

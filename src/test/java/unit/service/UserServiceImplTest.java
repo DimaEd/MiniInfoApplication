@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -33,9 +32,6 @@ public class UserServiceImplTest {
     @Mock
     private RoleService roleService;
 
-    final User user = new User();
-    final Role role = new Role(1L,"client");
-
     @Test
     public void testFindAll() {
         final List<User> userList = Collections.singletonList(new User());
@@ -45,12 +41,16 @@ public class UserServiceImplTest {
 
     @Test
     public void testFindById() {
-        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
+        final User user = new User();
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         assertEquals(userService.findById(1L), user);
     }
 
     @Test
     public void testSave() {
+        final User user = new User();
+        final Role role = new Role(1L, "client");
+
         user.setRole(role);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(roleService.findById(1L)).thenReturn(role);
@@ -59,8 +59,11 @@ public class UserServiceImplTest {
 
     @Test
     public void testUpdate() {
+        final User user = new User();
+        final Role role = new Role(1L, "client");
         user.setId(1L);
         user.setRole(role);
+
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(roleService.findById(1L)).thenReturn(role);
@@ -69,6 +72,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testDelete() {
+        final User user = new User();
         user.setId(1L);
         doNothing().when(userRepository).delete(user);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -77,9 +81,10 @@ public class UserServiceImplTest {
 
     @Test
     public void testDeleteById() {
+        final User user = new User();
         user.setId(1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        doNothing().when(userRepository).deleteById(any(Long.class));
+        doNothing().when(userRepository).deleteById(1L);
         assertDoesNotThrow(() -> userService.deleteById(1L));
     }
 }

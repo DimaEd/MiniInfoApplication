@@ -38,11 +38,10 @@ class ProductControllerUnitTest {
     @Spy
     Mapper mapper = new DozerBeanMapper();
 
-    final Product product = new Product();
-    final ProductResponseDto productResponseDto = new ProductResponseDto();
-
     @Test
     void getAll() {
+        final Product product = new Product();
+        final ProductResponseDto productResponseDto = new ProductResponseDto();
         List<ProductResponseDto> productResponseDtoList = singletonList(productResponseDto);
         ResponseEntity<List<ProductResponseDto>> productResponseDtoResponseEntity = new ResponseEntity<>(productResponseDtoList, HttpStatus.OK);
         List<Product> products = singletonList(product);
@@ -52,30 +51,36 @@ class ProductControllerUnitTest {
 
     @Test
     void getName() {
+        final Product product = new Product();
+        final ProductResponseDto productResponseDto = new ProductResponseDto();
         ResponseEntity<ProductResponseDto> productResponseDtoResponseEntity = new ResponseEntity(productResponseDto, HttpStatus.OK);
-        when(productService.findByProductName(any(String.class))).thenReturn(product);
+        when(productService.findByProductName("nokia")).thenReturn(product);
         assertEquals(productController.getName("nokia"), productResponseDtoResponseEntity);
     }
 
     @Test
     void save() {
+        final Product product = new Product();
+        final ProductResponseDto productResponseDto = new ProductResponseDto();
         ResponseEntity<ProductResponseDto> productResponseDtoResponseEntity = new ResponseEntity(productResponseDto, HttpStatus.OK);
         ProductRequestDto productRequestDto = new ProductRequestDto();
-        when(productService.save(any())).thenReturn(product);
+        when(productService.save(any(Product.class))).thenReturn(product);
         assertEquals(productController.save(productRequestDto), productResponseDtoResponseEntity);
     }
 
     @Test
     void update() {
+        final Product product = new Product();
+        final ProductResponseDto productResponseDto = new ProductResponseDto();
         ResponseEntity<ProductResponseDto> productResponseDtoResponseEntity = new ResponseEntity(productResponseDto, HttpStatus.OK);
         ProductRequestDto productRequestDto = new ProductRequestDto();
-        when(productService.update(any())).thenReturn(product);
+        when(productService.update(any(Product.class))).thenReturn(product);
         assertEquals(productController.update(productRequestDto, 1L), productResponseDtoResponseEntity);
     }
 
     @Test
     void delete() {
-        doNothing().when(productService).deleteById(any(Long.class));
+        doNothing().when(productService).deleteById(1L);
         assertDoesNotThrow(() -> productController.delete(1L));
     }
 

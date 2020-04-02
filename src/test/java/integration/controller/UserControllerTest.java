@@ -51,6 +51,14 @@ public class UserControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void testGetNameNotExist() throws Exception {
+        mockMvc.perform(get("/user/Alex"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
 
     @Test
     public void testGetAll() throws Exception {
@@ -63,7 +71,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdateOneExist() throws Exception {
         mockMvc.perform(put("/user/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":3,\"name\":\"alex\",\"email\":\"alex@mail.ru\",\"roleId\":1}"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -71,7 +79,15 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testUpdateNotExistBadRequest() throws Exception {
+        mockMvc.perform(put("/user/5").contentType(APPLICATION_JSON_UTF8).content("{\"id\":1,\"name\":\"Alex\"}"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+    }
+
+    @Test
+    public void testSaveNotExist() throws Exception {
         mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8).content("{\"name\":\"alex\",\"email\":\"alex@mail.ru\",\"roleId\":1}"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -84,6 +100,14 @@ public class UserControllerTest {
         mockMvc.perform(delete("/user/2"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void testDeleteNotExist() throws Exception {
+        mockMvc.perform(delete("/user/5"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
 }

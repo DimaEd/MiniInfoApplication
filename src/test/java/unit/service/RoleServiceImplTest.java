@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -28,28 +27,30 @@ public class RoleServiceImplTest {
     @Mock
     private RoleRepository roleRepository;
 
-    final Role role = new Role();
-
     @Test
     public void testFindAll() {
         final List<Role> roleList = Collections.singletonList(new Role());
         when(roleRepository.findAll()).thenReturn(roleList);
         assertEquals(roleService.findAll(), roleList);
     }
+
     @Test
     public void testFindById() {
-        when(roleRepository.findById(any(Long.class))).thenReturn(Optional.of(role));
+        final Role role = new Role();
+        when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         assertEquals(roleService.findById(1L), role);
     }
 
     @Test
     public void testSave() {
+        final Role role = new Role();
         when(roleRepository.saveAndFlush(role)).thenReturn(role);
         assertEquals(roleService.save(role), role);
     }
 
     @Test
     public void testUpdate() {
+        final Role role = new Role();
         role.setId(1L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         when(roleRepository.saveAndFlush(role)).thenReturn(role);
@@ -58,6 +59,7 @@ public class RoleServiceImplTest {
 
     @Test
     public void testDelete() {
+        final Role role = new Role();
         role.setId(1L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         doNothing().when(roleRepository).delete(role);
@@ -66,8 +68,9 @@ public class RoleServiceImplTest {
 
     @Test
     public void testDeleteById() {
+        final Role role = new Role();
         role.setId(1L);
-        doNothing().when(roleRepository).deleteById(any(Long.class));
+        doNothing().when(roleRepository).deleteById(1L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(role));
         assertDoesNotThrow(() -> roleService.deleteById(1L));
     }

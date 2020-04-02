@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -34,11 +33,6 @@ public class ProductServiceImplTest {
     @Mock
     private UserService userService;
 
-    final Product product = new Product();
-    final Role role = new Role(1L,"client");
-    final User user = new User(1L,"Tom","tom@mail.ru",role);
-
-
     @Test
     public void testFindAll() {
         final List<Product> productList = Collections.singletonList(new Product());
@@ -48,12 +42,16 @@ public class ProductServiceImplTest {
 
     @Test
     public void testFindById() {
-        when(productRepository.findById(any(Long.class))).thenReturn(Optional.of(product));
+        final Product product = new Product();
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         assertEquals(productService.findById(1L), product);
     }
+
     @Test
     public void testSave() {
         final Product product = new Product();
+        final Role role = new Role(1L, "client");
+        final User user = new User(1L, "Tom", "tom@mail.ru", role);
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);
         when(userService.findById(1L)).thenReturn(user);
@@ -62,6 +60,9 @@ public class ProductServiceImplTest {
 
     @Test
     public void testUpdate() {
+        final Product product = new Product();
+        final Role role = new Role(1L, "client");
+        final User user = new User(1L, "Tom", "tom@mail.ru", role);
         product.setId(1L);
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);
@@ -69,8 +70,10 @@ public class ProductServiceImplTest {
         when(userService.findById(1L)).thenReturn(user);
         assertEquals(productService.update(product), product);
     }
+
     @Test
     public void testDelete() {
+        final Product product = new Product();
         product.setId(1L);
         doNothing().when(productRepository).delete(product);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -79,9 +82,10 @@ public class ProductServiceImplTest {
 
     @Test
     public void testDeleteById() {
+        final Product product = new Product();
         product.setId(1L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-        doNothing().when(productRepository).deleteById(any(Long.class));
+        doNothing().when(productRepository).deleteById(1L);
         assertDoesNotThrow(() -> productService.deleteById(1L));
     }
 }

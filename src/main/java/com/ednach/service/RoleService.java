@@ -4,9 +4,6 @@ import com.ednach.model.Role;
 
 import java.util.List;
 
-/**
- * Interface with CRUD methods for Role entity
- */
 public interface RoleService {
     List<Role> findAll();
 

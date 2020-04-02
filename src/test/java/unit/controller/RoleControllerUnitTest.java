@@ -2,8 +2,6 @@ package unit.controller;
 
 import com.ednach.controller.RoleController;
 import com.ednach.dto.RoleDto;
-import com.ednach.dto.request.UserRequestDto;
-import com.ednach.dto.response.UserResponseDto;
 import com.ednach.model.Role;
 import com.ednach.service.impl.RoleServiceImpl;
 import org.dozer.DozerBeanMapper;
@@ -39,11 +37,10 @@ class RoleControllerUnitTest {
     @Spy
     Mapper mapper = new DozerBeanMapper();
 
-    final Role role = new Role();
-    final RoleDto roleDto = new RoleDto();
-
     @Test
     void getAll() {
+        final Role role = new Role();
+        final RoleDto roleDto = new RoleDto();
         List<RoleDto> roleDtoList = singletonList(roleDto);
         ResponseEntity<List<RoleDto>> roleDtoResponseEntity = new ResponseEntity<>(roleDtoList, HttpStatus.OK);
         List<Role> roles = singletonList(role);
@@ -53,31 +50,37 @@ class RoleControllerUnitTest {
 
     @Test
     void getOne() {
+        final Role role = new Role();
+        final RoleDto roleDto = new RoleDto();
         ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
-        when(roleService.findById(any(Long.class))).thenReturn(role);
+        when(roleService.findById(1L)).thenReturn(role);
         assertEquals(roleController.getOne(1L), roleDtoResponseEntity);
     }
 
     @Test
     void save() {
+        final Role role = new Role();
+        final RoleDto roleDto = new RoleDto();
         ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
         RoleDto roleRequest = new RoleDto();
-        when(roleService.save(any())).thenReturn(role);
+        when(roleService.save(any(Role.class))).thenReturn(role);
         assertEquals(roleController.save(roleRequest), roleDtoResponseEntity);
     }
 
     @Test
     void update() {
+        final Role role = new Role();
+        final RoleDto roleDto = new RoleDto();
         ResponseEntity<RoleDto> roleDtoResponseEntity = new ResponseEntity(roleDto, HttpStatus.OK);
         RoleDto roleRequestDto = new RoleDto();
-        when(roleService.update(any())).thenReturn(role);
+        when(roleService.update(any(Role.class))).thenReturn(role);
         assertEquals(roleController.update(roleRequestDto, 1L), roleDtoResponseEntity);
 
     }
 
     @Test
     void delete() {
-        doNothing().when(roleService).deleteById(any(Long.class));
+        doNothing().when(roleService).deleteById(1L);
         assertDoesNotThrow(() -> roleController.delete(1L));
     }
 

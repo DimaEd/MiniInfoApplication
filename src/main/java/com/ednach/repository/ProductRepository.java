@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ProductRepository provides the necessary search operations
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT p.id , p.productName , p.cost FROM Product p JOIN p.producers pr")
+    @Query("SELECT DISTINCT p FROM Product p JOIN FETCH p.producers")
     List<Product> findAll();
 
-    Product findByProductName(String productName);
+    @Query("SELECT DISTINCT p FROM Product p JOIN FETCH p.producers WHERE p.productName=:productName")
+    Product findByProductName(@Param("productName") String productName);
 
 }

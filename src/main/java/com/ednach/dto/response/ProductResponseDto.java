@@ -1,5 +1,6 @@
 package com.ednach.dto.response;
 
+import com.ednach.dto.request.ProducerRequestDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ public class ProductResponseDto {
     private Long id;
     private String productName;
     private int cost;
-    private Set<ProducerResponseDto> producers;
+   private Set<ProducerRequestDto> producers;
 
     @Override
     public boolean equals(Object o) {
