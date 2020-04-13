@@ -11,9 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,9 +47,11 @@ public class UserServiceImplTest {
     @Test
     public void testSave() {
         final User user = new User();
+        final Set<Role> roles = new HashSet<>();
         final Role role = new Role(1L, "client");
+        roles.add(role);
 
-        user.setRole(role);
+        user.setRoles(roles);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(roleService.findById(1L)).thenReturn(role);
         assertEquals(userService.save(user), user);
@@ -60,9 +60,11 @@ public class UserServiceImplTest {
     @Test
     public void testUpdate() {
         final User user = new User();
+        final Set<Role> roles = new HashSet<>();
         final Role role = new Role(1L, "client");
+        roles.add(role);
         user.setId(1L);
-        user.setRole(role);
+        user.setRoles(roles);
 
         when(userRepository.saveAndFlush(user)).thenReturn(user);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));

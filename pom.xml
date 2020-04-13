@@ -14,12 +14,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <org.spring.core>5.2.4.RELEASE</org.spring.core>
+        <org.spring.core>5.2.3.RELEASE</org.spring.core>
         <org.spring.data>2.1.8.RELEASE</org.spring.data>
+        <org.spring.security>5.2.1.RELEASE</org.spring.security>
         <com.h2.driver>1.4.197</com.h2.driver>
         <javax.servlet>4.0.1</javax.servlet>
         <jackson.core>2.9.9</jackson.core>
-        <hibernate.validator>6.0.16.Final</hibernate.validator>
+        <hibernate.validator>6.0.19.Final</hibernate.validator>
         <dozer>5.5.1</dozer>
         <logback>1.2.3</logback>
         <flyway-core.version>5.0.2</flyway-core.version>
@@ -29,9 +30,25 @@
         <hamcrest>2.1</hamcrest>
         <jsonpath>2.4.0</jsonpath>
         <javax.el>3.0.1-b08</javax.el>
+        <jjwt>0.9.1</jjwt>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.spring.security}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.spring.security}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.spring.security}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -41,6 +58,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.spring.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -122,6 +144,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${org.spring.security}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>${hamcrest}</version>
@@ -161,7 +189,7 @@
                 <version>${flyway-maven-plugin.version}</version>
                 <configuration>
                     <driver>org.h2.Driver</driver>
-                    <url>jdbc:h2:mem:user</url>
+                    <url>jdbc:h2:mem:info</url>
                     <user>flyway</user>
                     <password></password>
                 </configuration>

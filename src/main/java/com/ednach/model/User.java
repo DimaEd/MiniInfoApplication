@@ -5,11 +5,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
+
 @Getter
 @Setter
 
 @Entity
-@Table (name = "users")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -18,22 +19,44 @@ public class User {
 
     private String name;
 
+    private String password;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "User_Role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
+
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name="role_id", nullable = false )
-    private Role role;
-
-    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Product> products;
 
     public User() {
     }
 
-    public User(Long id, String name, String email, Role role){
+    public User(Long id, String name, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long id, String name, String password, String email) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
         this.email = email;
-        this.role =role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

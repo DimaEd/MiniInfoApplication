@@ -4,6 +4,7 @@ import com.ednach.model.User;
 import com.ednach.repository.UserRepository;
 import com.ednach.service.RoleService;
 import com.ednach.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
+    private final PasswordEncoder encoder;
+
     private RoleService roleService;
 
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.encoder = encoder;
     }
 
     @Override
@@ -62,7 +66,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private User saveAndFlush(User user) {
-        user.setRole(roleService.findById(user.getRole().getId()));
+        user.getRoles().forEach(role -> {
+            role.setRoleName(roleService.findById(role.getId()).getRoleName());
+        });
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
 }

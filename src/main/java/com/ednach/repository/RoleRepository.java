@@ -10,4 +10,6 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Long> {
      @Query("SELECT DISTINCT r from Role r join r.users")
     List<Role> findAll();
+
+    Role findByRoleName(String roleName);
 }

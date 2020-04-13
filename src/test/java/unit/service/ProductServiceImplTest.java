@@ -50,8 +50,7 @@ public class ProductServiceImplTest {
     @Test
     public void testSave() {
         final Product product = new Product();
-        final Role role = new Role(1L, "client");
-        final User user = new User(1L, "Tom", "tom@mail.ru", role);
+        final User user = new User(1L, "Tom", "1234", "Tom@mail.ru");
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);
         when(userService.findById(1L)).thenReturn(user);
@@ -62,7 +61,7 @@ public class ProductServiceImplTest {
     public void testUpdate() {
         final Product product = new Product();
         final Role role = new Role(1L, "client");
-        final User user = new User(1L, "Tom", "tom@mail.ru", role);
+        final User user = new User(1L, "Tom", "1234", "Tom@mail.ru");
         product.setId(1L);
         product.setUser(user);
         when(productRepository.saveAndFlush(product)).thenReturn(product);

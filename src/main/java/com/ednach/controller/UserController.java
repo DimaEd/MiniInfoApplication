@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -63,13 +64,15 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    public User getUser(UserRequestDto userRequestDto) {
+
+    private User getUser(UserRequestDto userRequestDto) {
         final User user = mapper.map(userRequestDto, User.class);
-        final Role role = new Role();
-        role.setId(userRequestDto.getRoleId());
-        user.setRole(role);
+        final Set<Role> roles = userRequestDto.getRoleId().stream().map(roleId -> {
+            Role role = new Role();
+            role.setId(roleId);
+            return role;
+        }).collect(Collectors.toSet());
+        user.setRoles(roles);
         return user;
-
-
     }
 }

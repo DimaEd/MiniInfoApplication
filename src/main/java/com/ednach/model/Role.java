@@ -15,15 +15,22 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany (mappedBy = "role" , fetch = FetchType.EAGER)
-    private Set<User> users;
-
     private String roleName;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public Role() {
     }
     public Role(Long id , String roleName){
         this.id = id;
         this.roleName = roleName;
+    }
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + roleName + '\'' +
+                '}';
     }
 }

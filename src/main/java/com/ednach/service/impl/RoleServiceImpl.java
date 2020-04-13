@@ -23,6 +23,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public Role findByRoleNome(String roleName) {
+        return roleRepository.findByRoleName(roleName);
+    }
+
+    @Override
     public Role findById(Long id) {
         return roleRepository.findById(id).orElseThrow(()->new RuntimeException());
     }
