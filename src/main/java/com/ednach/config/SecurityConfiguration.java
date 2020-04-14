@@ -4,6 +4,7 @@ import com.ednach.security.filter.AuthenticationTokenFilter;
 import com.ednach.service.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .mvcMatchers("/authentication/signIn", "/authentication/refresh").permitAll()
-                .mvcMatchers("/roles/**", "/users/**", "/product/**", "/producer/**").hasAnyRole("ADMIN", "USER")
+                .mvcMatchers(HttpMethod.GET,"/role/**", "/user/**", "/product/**", "/producer/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().hasRole("ADMIN");
         http.addFilterBefore(new AuthenticationTokenFilter(tokenService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
     }
