@@ -1,4 +1,4 @@
-INSERT INTO roles VALUES (1,'ADMIN'),(2,'USER');
+INSERT INTO roles VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 
 INSERT INTO users VALUES (1, 'Tom','$2a$10$l/D6AGt8vYJG.cW/lIT44uy.TAYkV9UYJ8bPuGKBwuva/ERc9Ct4K','tom@mail.ru'),(2,'Peter','$2a$10$l/D6AGt8vYJG.cW/lIT44uy.TAYkV9UYJ8bPuGKBwuva/ERc9Ct4K','peter@gmail.com');
 

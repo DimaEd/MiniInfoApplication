@@ -67,6 +67,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/demo_war/authentication/refresh?token= eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUb20iLCJpYXQiOjE1ODY5MjM4MzcsImV4cCI6MTU4NjkyNDQzN30.7-NCaZqRt-CvKaPOxL3NfPzEIlg-vLFImj3KtweGPilzi66M0VUgPJRr30rmwrJ-FprgRIG0xPbUk-8TI6GUWg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"demo_war",
+								"authentication",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": " eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUb20iLCJpYXQiOjE1ODY5MjM4MzcsImV4cCI6MTU4NjkyNDQzN30.7-NCaZqRt-CvKaPOxL3NfPzEIlg-vLFImj3KtweGPilzi66M0VUgPJRr30rmwrJ-FprgRIG0xPbUk-8TI6GUWg"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -76,6 +103,17 @@
 			"item": [
 				{
 					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -101,15 +139,65 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetOneByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Product",
+			"name": "Products",
 			"item": [
 				{
 					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOneByProductName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Producers",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
 					"request": {
 						"method": "GET",
 						"header": [],

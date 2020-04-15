@@ -13,5 +13,7 @@ public class UserRegistrationRequestDTO {
 
     private String password;
 
+    private String email;
+
     private Set<String> roles;
 }

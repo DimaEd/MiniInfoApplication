@@ -8,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/authentication/signIn", "/authentication/refresh").permitAll()
+                .mvcMatchers("/authentication/signIn", "/authentication/refresh","/authentication/signUp").permitAll()
                 .mvcMatchers(HttpMethod.GET,"/role/**", "/user/**", "/product/**", "/producer/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().hasRole("ADMIN");
         http.addFilterBefore(new AuthenticationTokenFilter(tokenService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
