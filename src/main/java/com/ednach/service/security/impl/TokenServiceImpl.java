@@ -3,17 +3,18 @@ package com.ednach.service.security.impl;
 import com.ednach.security.model.AuthenticationUserDetails;
 import com.ednach.service.security.TokenService;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-
+@Slf4j
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenServiceImpl.class);
+ //   private static final Logger LOGGER = LoggerFactory.getLogger(TokenServiceImpl.class);
 
     private static final String INVALID_JWT_SIGNATURE_MESSAGE = "Invalid JWT signature";
 
@@ -47,28 +48,50 @@ public class TokenServiceImpl implements TokenService {
                 .getBody().getSubject();
     }
 
-    @Override
-    public boolean validate(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            LOGGER.error(INVALID_JWT_SIGNATURE_MESSAGE, e);
-            throw e;
-        } catch (MalformedJwtException e) {
-            LOGGER.error(INVALID_JWT_TOKEN_MESSAGE, e);
-            throw e;
-        } catch (ExpiredJwtException e) {
-            LOGGER.error(EXPIRED_JWT_TOKEN_MESSAGE, e);
-            throw e;
-        } catch (UnsupportedJwtException e) {
-            LOGGER.error(UNSUPPORTED_JWT_TOKEN_MESSAGE, e);
-            throw e;
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(JWT_CLAIMS_STRING_IS_EMPTY_MESSAGE, e);
-            throw e;
-        }
+//    @Override
+//    public boolean validate(String authToken) {
+//        try {
+//            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
+//            return true;
+//        } catch (SignatureException e) {
+//            LOGGER.error(INVALID_JWT_SIGNATURE_MESSAGE, e);
+//            throw e;
+//        } catch (MalformedJwtException e) {
+//            LOGGER.error(INVALID_JWT_TOKEN_MESSAGE, e);
+//            throw e;
+//        } catch (ExpiredJwtException e) {
+//            LOGGER.error(EXPIRED_JWT_TOKEN_MESSAGE, e);
+//            throw e;
+//        } catch (UnsupportedJwtException e) {
+//            LOGGER.error(UNSUPPORTED_JWT_TOKEN_MESSAGE, e);
+//            throw e;
+//        } catch (IllegalArgumentException e) {
+//            LOGGER.error(JWT_CLAIMS_STRING_IS_EMPTY_MESSAGE, e);
+//            throw e;
+//        }
+//    }
+@Override
+public boolean validate(String authToken) {
+    try {
+        Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
+        return true;
+    } catch (SignatureException e) {
+        log.error(INVALID_JWT_SIGNATURE_MESSAGE, e);
+        throw e;
+    } catch (MalformedJwtException e) {
+        log.error(INVALID_JWT_TOKEN_MESSAGE, e);
+        throw e;
+    } catch (ExpiredJwtException e) {
+        log.error(EXPIRED_JWT_TOKEN_MESSAGE, e);
+        throw e;
+    } catch (UnsupportedJwtException e) {
+        log.error(UNSUPPORTED_JWT_TOKEN_MESSAGE, e);
+        throw e;
+    } catch (IllegalArgumentException e) {
+        log.error(JWT_CLAIMS_STRING_IS_EMPTY_MESSAGE, e);
+        throw e;
     }
+}
 
     private String generate(String username) {
         return Jwts.builder()
