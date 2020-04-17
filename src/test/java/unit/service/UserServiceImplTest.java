@@ -10,11 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +32,9 @@ public class UserServiceImplTest {
 
     @Mock
     private RoleService roleService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void testFindAll() {
@@ -47,21 +53,19 @@ public class UserServiceImplTest {
     @Test
     public void testSave() {
         final User user = new User();
-        final Set<Role> roles = new HashSet<>();
-        final Role role = new Role(1L, "client");
-        roles.add(role);
-
+        final Role role = new Role(1L);
+        final Set<Role> roles = Collections.singleton(role);
         user.setRoles(roles);
-        when(userRepository.saveAndFlush(user)).thenReturn(user);
-        when(roleService.findById(1L)).thenReturn(role);
-        assertEquals(userService.save(user), user);
+        when(userRepository.saveAndFlush(any(User.class))).thenReturn(user);
+        when(roleService.findById(anyLong())).thenReturn(role);
+        assertEquals(user, userService.save(user));
     }
 
     @Test
     public void testUpdate() {
         final User user = new User();
         final Set<Role> roles = new HashSet<>();
-        final Role role = new Role(1L, "client");
+        final Role role = new Role(1L);
         roles.add(role);
         user.setId(1L);
         user.setRoles(roles);

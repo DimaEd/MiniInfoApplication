@@ -67,7 +67,7 @@ public class UserController {
 
     private User getUser(UserRequestDto userRequestDto) {
         final User user = mapper.map(userRequestDto, User.class);
-        final Set<Role> roles = userRequestDto.getRoleId().stream().map(roleId -> {
+        final Set<Role> roles = userRequestDto.getRoleIds().stream().map(roleId -> {
             Role role = new Role();
             role.setId(roleId);
             return role;

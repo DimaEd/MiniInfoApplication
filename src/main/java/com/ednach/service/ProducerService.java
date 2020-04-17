@@ -9,6 +9,8 @@ public interface ProducerService {
 
     List<Producer> findProducerByCompanyName(String companyName);
 
+    Producer findByCompanyName(String companyName);
+
     Producer findById(Long id);
 
     Producer save(Producer producer);

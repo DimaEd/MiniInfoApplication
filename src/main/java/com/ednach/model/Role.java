@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
+
 @Getter
 @Setter
 
@@ -22,10 +23,16 @@ public class Role {
 
     public Role() {
     }
-    public Role(Long id , String roleName){
+
+    public Role(Long id) {
+        this.id = id;
+    }
+
+    public Role(Long id, String roleName) {
         this.id = id;
         this.roleName = roleName;
     }
+
     @Override
     public String toString() {
         return "Role{" +

@@ -1,8 +1,10 @@
 package com.ednach.service.impl;
 
+import com.ednach.model.Producer;
 import com.ednach.model.Product;
 import com.ednach.model.User;
 import com.ednach.repository.ProductRepository;
+import com.ednach.service.ProducerService;
 import com.ednach.service.ProductService;
 import com.ednach.service.UserService;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private UserService userService;
     private ProductRepository productRepository;
+    private ProducerService producerService;
 
-    public ProductServiceImpl(ProductRepository productRepository, UserService userService) {
+    public ProductServiceImpl(ProductRepository productRepository, UserService userService, ProducerService producerService) {
         this.productRepository = productRepository;
         this.userService = userService;
+        this.producerService = producerService;
     }
 
     @Override
@@ -64,6 +68,12 @@ public class ProductServiceImpl implements ProductService {
 
     private Product saveAndFlush(Product product) {
         product.setUser(userService.findById(product.getUser().getId()));
+        product.getProducers().forEach(producer -> {
+            producer.setCompanyName(producerService.findById(producer.getId()).getCompanyName());
+            producer.setEmail(producerService.findById(producer.getId()).getEmail());
+            producer.setCountry(producerService.findById(producer.getId()).getCountry());
+        });
+
         return productRepository.saveAndFlush(product);
     }
 }

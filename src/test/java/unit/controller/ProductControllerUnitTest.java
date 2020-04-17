@@ -63,7 +63,7 @@ class ProductControllerUnitTest {
         final Product product = new Product();
         final ProductResponseDto productResponseDto = new ProductResponseDto();
         ResponseEntity<ProductResponseDto> productResponseDtoResponseEntity = new ResponseEntity(productResponseDto, HttpStatus.OK);
-        ProductRequestDto productRequestDto = new ProductRequestDto();
+        ProductRequestDto productRequestDto = new ProductRequestDto(Collections.singleton(1L));
         when(productService.save(any(Product.class))).thenReturn(product);
         assertEquals(productController.save(productRequestDto), productResponseDtoResponseEntity);
     }
@@ -73,7 +73,7 @@ class ProductControllerUnitTest {
         final Product product = new Product();
         final ProductResponseDto productResponseDto = new ProductResponseDto();
         ResponseEntity<ProductResponseDto> productResponseDtoResponseEntity = new ResponseEntity(productResponseDto, HttpStatus.OK);
-        ProductRequestDto productRequestDto = new ProductRequestDto();
+        ProductRequestDto productRequestDto = new ProductRequestDto(Collections.singleton(1L));
         when(productService.update(any(Product.class))).thenReturn(product);
         assertEquals(productController.update(productRequestDto, 1L), productResponseDtoResponseEntity);
     }

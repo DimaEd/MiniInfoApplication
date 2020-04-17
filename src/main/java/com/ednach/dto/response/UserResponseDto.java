@@ -10,6 +10,7 @@ import java.util.Objects;
 public class UserResponseDto {
     private Long id ;
     private String name;
+    private String email;
 
     @Override
     public boolean equals(Object o) {
@@ -17,11 +18,12 @@ public class UserResponseDto {
         if (o == null || getClass() != o.getClass()) return false;
         UserResponseDto that = (UserResponseDto) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
+                Objects.equals(name, that.name) &&
+                Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, email);
     }
 }

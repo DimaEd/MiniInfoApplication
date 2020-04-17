@@ -2,8 +2,11 @@ package com.ednach.controller;
 
 import com.ednach.dto.request.ProductRequestDto;
 import com.ednach.dto.response.ProductResponseDto;
+import com.ednach.model.Producer;
 import com.ednach.model.Product;
+import com.ednach.model.Role;
 import com.ednach.model.User;
+import com.ednach.service.ProducerService;
 import com.ednach.service.ProductService;
 import org.dozer.Mapper;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,10 +23,12 @@ import java.util.stream.Collectors;
 public class ProductController {
     private Mapper mapper;
     private ProductService productService;
+    private ProducerService producerService;
 
-    public ProductController(Mapper mapper, ProductService productService) {
+    public ProductController(Mapper mapper, ProductService productService, ProducerService producerService) {
         this.mapper = mapper;
         this.productService = productService;
+        this.producerService = producerService;
     }
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<ProductResponseDto>> getAll() {
@@ -67,6 +73,12 @@ public class ProductController {
         final User user = new User();
         user.setId(productRequestDto.getUserId());
         product.setUser(user);
+         Set<Producer> producers = productRequestDto.getProducerIds().stream().map(producerIds -> {
+            Producer producer = new Producer();
+            producer.setId(producerIds);
+            return producer;
+        }).collect(Collectors.toSet());
+        product.setProducers(producers);
         return product;
 
 

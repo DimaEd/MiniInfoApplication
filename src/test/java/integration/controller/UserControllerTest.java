@@ -48,6 +48,7 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Tom"))
+                .andExpect(jsonPath("$.email").value("tom@mail.ru"))
                 .andReturn();
     }
 
@@ -66,13 +67,13 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Tom"))
-                .andExpect(jsonPath("$[1].name").value("Kate"))
+                .andExpect(jsonPath("$[1].name").value("Peter"))
                 .andReturn();
     }
 
     @Test
     public void testUpdateOneExist() throws Exception {
-        mockMvc.perform(put("/user/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":3,\"name\":\"alex\",\"email\":\"alex@mail.ru\",\"roleId\":1}"))
+        mockMvc.perform(put("/user/2").contentType(APPLICATION_JSON_UTF8).content("{\"id\":2,\"name\":\"alex\",\"password\":\"43212\",\"email\":\"alex@mail.ru\",\"roleIds\":[1]}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -88,7 +89,7 @@ public class UserControllerTest {
 
     @Test
     public void testSaveNotExist() throws Exception {
-        mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8).content("{\"name\":\"alex\",\"email\":\"alex@mail.ru\",\"roleId\":1}"))
+        mockMvc.perform(post("/user").contentType(APPLICATION_JSON_UTF8).content("{\"name\":\"alex\",\"password\":\"43212\",\"email\":\"alex@mail.ru\",\"roleIds\":[1]}"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("alex"))

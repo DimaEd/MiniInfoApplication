@@ -46,7 +46,7 @@ public class RoleControllerTest {
         mockMvc.perform(get("/role/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.roleName").value("client"))
+                .andExpect(jsonPath("$.roleName").value("ROLE_ADMIN"))
                 .andReturn();
     }
 
@@ -54,7 +54,7 @@ public class RoleControllerTest {
     public void testGetOneNotExist() throws Exception {
         mockMvc.perform(get("/role/3"))
                 .andDo(print())
-                .andExpect(status().is5xxServerError())
+                .andExpect(status().is(500))
                 .andReturn();
     }
 
@@ -63,24 +63,24 @@ public class RoleControllerTest {
         mockMvc.perform(get("/role"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].roleName").value("client"))
-                .andExpect(jsonPath("$[1].roleName").value("admin"))
+                .andExpect(jsonPath("$[0].roleName").value("ROLE_USER"))
+                .andExpect(jsonPath("$[1].roleName").value("ROLE_ADMIN"))
                 .andDo(print())
                 .andReturn();
     }
 
     @Test
     public void testUpdateOneExist() throws Exception {
-        mockMvc.perform(put("/role/2").contentType(APPLICATION_JSON_UTF8).content("{\"id\":2,\"roleName\":\"user\"}"))
+        mockMvc.perform(put("/role/2").contentType(APPLICATION_JSON_UTF8).content("{\"id\":2,\"roleName\":\"ROLE_BOSS\"}"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.roleName").value("user"))
+                .andExpect(jsonPath("$.roleName").value("ROLE_BOSS"))
                 .andReturn();
     }
 
     @Test
     public void testUpdateNotExistBadRequest() throws Exception {
-        mockMvc.perform(put("/role/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":1,\"name\":\"admin\"}"))
+        mockMvc.perform(put("/role/3").contentType(APPLICATION_JSON_UTF8).content("{\"id\":1,\"name\":\"ROLE_CLIENT\"}"))
                 .andDo(print())
                 .andExpect(status().is5xxServerError())
                 .andReturn();
@@ -88,10 +88,10 @@ public class RoleControllerTest {
 
     @Test
     public void testSaveNotExist() throws Exception {
-        mockMvc.perform(post("/role").contentType(APPLICATION_JSON_UTF8).content("{\"roleName\":\"user\"}"))
+        mockMvc.perform(post("/role").contentType(APPLICATION_JSON_UTF8).content("{\"roleName\":\"ROLE_BOSS\"}"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.roleName").value("user"))
+                .andExpect(jsonPath("$.roleName").value("ROLE_BOSS"))
                 .andReturn();
     }
 
@@ -107,7 +107,7 @@ public class RoleControllerTest {
     public void testDeleteNotExist() throws Exception {
         mockMvc.perform(delete("/role/3"))
                 .andDo(print())
-                .andExpect(status().is5xxServerError())
+                .andExpect(status().is(500))
                 .andReturn();
     }
 }

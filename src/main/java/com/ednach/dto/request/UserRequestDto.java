@@ -18,15 +18,19 @@ public class UserRequestDto {
 
     private String email;
 
-    private Set<Long> roleId;
+    private Set<Long> roleIds;
 
-    public UserRequestDto(Long id, String name, String email, Set<Long> roleId) {
+    public UserRequestDto(Long id, String name,String password, String email, Set<Long> roleIds) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.email = email;
-        this.roleId = roleId;
+        this.roleIds = roleIds;
     }
 
     public UserRequestDto() {
+    }
+    public UserRequestDto(Set<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 }

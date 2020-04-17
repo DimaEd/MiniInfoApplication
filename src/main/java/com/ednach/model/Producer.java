@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -16,10 +17,22 @@ public class Producer {
     private String companyName;
     private String email;
     private String country;
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "products_producers",
-            joinColumns = {@JoinColumn(name = "producer_id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
+
+    @ManyToMany(mappedBy = "producers", fetch = FetchType.LAZY)
     private Set<Product> products;
+
+    public Producer() {
+    }
+
+    public Producer(Long id) {
+        this.id = id;
+    }
+
+    public Producer(Long id, String companyName, String email, String country) {
+        this.id = id;
+        this.companyName = companyName;
+        this.email = email;
+        this.country = country;
+    }
 
 }

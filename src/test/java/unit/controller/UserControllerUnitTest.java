@@ -63,7 +63,7 @@ class UserControllerUnitTest {
         final User user = new User();
         final UserResponseDto userResponseDto = new UserResponseDto();
         ResponseEntity<UserResponseDto> userResponseDtoResponseEntity = new ResponseEntity(userResponseDto, HttpStatus.OK);
-        UserRequestDto userRequestDto = new UserRequestDto();
+        UserRequestDto userRequestDto = new UserRequestDto(Collections.singleton(1L));
         when(userService.save(any(User.class))).thenReturn(user);
         assertEquals(userController.save(userRequestDto), userResponseDtoResponseEntity);
     }
@@ -73,7 +73,7 @@ class UserControllerUnitTest {
         final User user = new User();
         final UserResponseDto userResponseDto = new UserResponseDto();
         ResponseEntity<UserResponseDto> userResponseDtoResponseEntity = new ResponseEntity(userResponseDto, HttpStatus.OK);
-        UserRequestDto userRequestDto = new UserRequestDto();
+        UserRequestDto userRequestDto = new UserRequestDto(Collections.singleton(1L));
         when(userService.update(any(User.class))).thenReturn(user);
         assertEquals(userController.update(userRequestDto, 1L), userResponseDtoResponseEntity);
     }

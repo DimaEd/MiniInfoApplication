@@ -18,6 +18,11 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
+    public Producer findByCompanyName(String companyName) {
+        return producerRepository.findByCompanyName(companyName);
+    }
+
+    @Override
     public List<Producer> findAll() {
         return producerRepository.findAll();
     }

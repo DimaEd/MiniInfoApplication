@@ -14,4 +14,6 @@ public interface ProducerRepository extends JpaRepository<Producer, Long> {
     @Query("SELECT DISTINCT p FROM Producer p JOIN FETCH p.products WHERE p.companyName=:companyName")
     List<Producer> findProducerByCompanyName(@Param("companyName") String companyName);
 
+    Producer findByCompanyName(String companyName);
+
 }

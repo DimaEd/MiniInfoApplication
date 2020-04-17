@@ -46,8 +46,8 @@ public class ProducerControllerTest {
         mockMvc.perform(get("/producer"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyName").value("Samsung"))
-                .andExpect(jsonPath("$[1].companyName").value("Apple"))
+                .andExpect(jsonPath("$[0].companyName").value("Nokia"))
+                .andExpect(jsonPath("$[1].companyName").value("Samsung"))
                 .andReturn();
     }
 
