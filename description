@@ -8,3 +8,4 @@ The application simply provides information about the product and its manufactur
 5. DTO
 6. Database H2
 7. Tests UNIT, INTEGRATION, POSTMANCOLLECTION
+8. Swagger
