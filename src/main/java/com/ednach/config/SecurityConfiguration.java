@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/authentication/signIn", "/authentication/refresh","/authentication/signUp").permitAll()
+                .mvcMatchers("/authentication/signIn", "/authentication/refresh","/termsOfService", "/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**", "/termsOfService").permitAll()
                 .mvcMatchers(HttpMethod.GET,"/role/**", "/user/**", "/product/**", "/producer/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().hasRole("ADMIN");
         http.addFilterBefore(new AuthenticationTokenFilter(tokenService, userDetailsService), UsernamePasswordAuthenticationFilter.class);

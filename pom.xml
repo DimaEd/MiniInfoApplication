@@ -31,6 +31,8 @@
         <jsonpath>2.4.0</jsonpath>
         <javax.el>3.0.1-b08</javax.el>
         <jjwt>0.9.1</jjwt>
+        <swagger2>2.9.2</swagger2>
+        <swagger-ui>2.9.2</swagger-ui>
     </properties>
 
     <dependencies>
@@ -172,6 +174,16 @@
             <artifactId>javax.el</artifactId>
             <version>${javax.el}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger-ui}</version>
         </dependency>
     </dependencies>
     <build>
